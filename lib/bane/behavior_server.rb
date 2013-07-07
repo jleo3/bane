@@ -1,14 +1,19 @@
 require 'gserver'
+require 'logger'
 
 module Bane
-  class BehaviorServer < GServer
+  class BehaviorServer < TCPServer
+    attr_writer :stdlog
 
     ALL_INTERFACES = "0.0.0.0"
+    DEFAULT_HOST = "127.0.0.1"
 
     def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST)
-      super(port, host)
+      super(host, port)
       @behavior = behavior
-      self.audit = true
+      # I guess we'll have to manage our own auditing, 
+      # if hooking into the callbacks is indeed possible
+      #self.audit = true
     end
 
     def serve(io)
@@ -18,13 +23,15 @@ module Bane
     def to_s
       "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}>"
     end
+
+    def stdlog(logger)
+      @logger = logger
+    end
     
     protected
 
-    alias_method :original_log, :log
-
     def log(message)
-      original_log("#{@behavior.class.simple_name} #{@host}:#{@port} #{message}")
+      LOGGER.info "#{@behavior.class.simple_name} #{@host}:#{@port} #{message}"
     end
 
     def connecting(client)

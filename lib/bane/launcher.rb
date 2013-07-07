@@ -8,7 +8,7 @@ module Bane
     end
 
     def start
-      @servers.each { |server| server.start }
+      @servers.each { |server| server.accept }
     end
 
     def join
