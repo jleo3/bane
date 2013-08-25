@@ -6,6 +6,28 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   IRRELEVANT_BEHAVIOR = "CloseImmediately"
 
+=begin
+  def create_configuration_for(array)
+    CommandLineConfiguration.new().parse(array)
+  end
+
+  def unique_behavior
+    Class.new
+  end
+
+  def expect_server_created_with(arguments)
+    arguments = { :port => anything(), :host => anything() }.merge(arguments)
+    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
+    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
+  end
+=end
+
+  def test_creates_close_immediately_server
+    Bane::Behaviors::CloseImmediately.expects(:new).with(3000)
+    CommandLineConfiguration.new().parse([3000, "CloseImmediately"])
+
+  end
+
   def test_creates_specified_behavior_on_given_port
     expect_server_created_with(:port => 3000, :behavior => Behaviors::CloseImmediately)
 

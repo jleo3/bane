@@ -23,12 +23,6 @@ module Bane
       end
     end
 
-    # Closes the connection immediately after a connection is made.
-    class CloseImmediately < BasicBehavior
-      def serve(io)
-        # do nothing
-      end
-    end
 
     # Accepts a connection, pauses a fixed duration, then closes the connection.
     #
