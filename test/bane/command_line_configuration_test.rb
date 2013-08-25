@@ -32,6 +32,8 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     expect_server_created "CloseAfterPause", Behaviors::CloseAfterPause
     expect_server_created "FixedResponse", Behaviors::FixedResponse
     expect_server_created "FixedResponseForEachLine", Behaviors::FixedResponseForEachLine
+    expect_server_created "NewlineResponse", Behaviors::NewlineResponse
+    expect_server_created "NewlineResponseForEachLine", Behaviors::NewlineResponseForEachLine
   end
 
   def test_creates_specified_behavior_on_given_port

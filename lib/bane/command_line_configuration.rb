@@ -75,7 +75,9 @@ module Bane
             if behavior == Behaviors::CloseImmediately ||
                behavior == Behaviors::CloseAfterPause ||
                behavior == Behaviors::FixedResponse ||
-               behavior == Behaviors::FixedResponseForEachLine
+               behavior == Behaviors::FixedResponseForEachLine ||
+               behavior == Behaviors::NewlineResponse ||
+               behavior == Behaviors::NewlineResponseForEachLine
               
               configurations << behavior.new(starting_port + index)
 

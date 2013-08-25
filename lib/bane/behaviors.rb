@@ -23,17 +23,6 @@ module Bane
       end
     end
 
-    # Sends a newline character as the only response 
-    class NewlineResponse < BasicBehavior
-      def serve(io)
-        io.write "\n"
-      end
-    end
-
-    class NewlineResponseForEachLine < NewlineResponse
-      include ForEachLine
-    end
-
     # Sends a random response.
     class RandomResponse < BasicBehavior
       def serve(io)
