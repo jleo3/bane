@@ -38,6 +38,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     expect_server_created "RandomResponseForEachLine", Behaviors::RandomResponseForEachLine
     expect_server_created "SlowResponse", Behaviors::SlowResponse
     expect_server_created "SlowResponseForEachLine", Behaviors::SlowResponseForEachLine
+    expect_server_created "NeverRespond", Behaviors::NeverRespond
   end
 
   def test_creates_specified_behavior_on_given_port

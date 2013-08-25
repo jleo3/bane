@@ -81,7 +81,9 @@ module Bane
                behavior == Behaviors::RandomResponse ||
                behavior == Behaviors::RandomResponseForEachLine ||
                behavior == Behaviors::SlowResponse ||
-               behavior == Behaviors::SlowResponseForEachLine 
+               behavior == Behaviors::SlowResponseForEachLine ||
+               behavior == Behaviors::NeverRespond
+
               
               configurations << behavior.new(starting_port + index)
 

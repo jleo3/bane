@@ -23,14 +23,6 @@ module Bane
       end
     end
 
-    # Accepts a connection and never sends a byte of data.  The connection is
-    # left open indefinitely.
-    class NeverRespond < BasicBehavior
-      def serve(io)
-        loop { sleep 1 }
-      end
-    end
-
     # Sends a large response.  Response consists of a repeated 'x' character.
     #
     # Options
