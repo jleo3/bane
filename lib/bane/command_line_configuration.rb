@@ -70,14 +70,12 @@ module Bane
     class LinearPortConfigurationFactory
 
       def create(starting_port, behaviors, host)
-        puts starting_port
-        puts behaviors
-        puts host
         [].tap do |configurations|
           behaviors.each_with_index do |behavior, index|
-            puts behavior
-            if behavior == Bane::Behaviors::CloseImmediately ||
-                           Bane::Behaviors::CloseAfterPause
+            if behavior == Behaviors::CloseImmediately ||
+               behavior == Behaviors::CloseAfterPause ||
+               behavior == Behaviors::FixedResponse ||
+               behavior == Behaviors::FixedResponseForEachLine
               
               configurations << behavior.new(starting_port + index)
 
