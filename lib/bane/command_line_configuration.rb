@@ -76,9 +76,11 @@ module Bane
         [].tap do |configurations|
           behaviors.each_with_index do |behavior, index|
             puts behavior
-            if behavior == Bane::Behaviors::CloseImmediately
+            if behavior == Bane::Behaviors::CloseImmediately ||
+                           Bane::Behaviors::CloseAfterPause
               
-              configurations << Bane::Behaviors::CloseImmediately.new(starting_port + index)
+              configurations << behavior.new(starting_port + index)
+
             else
               configurations << BehaviorServer.new(starting_port + index, behavior.new, host)
             end
