@@ -23,7 +23,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 =end
 
   def expect_server_created(name, server)
-    server.expects(:new).with(3000)
+    server.expects(:new).with(3000, '127.0.0.1')
     CommandLineConfiguration.new().parse([3000, name])
   end
 

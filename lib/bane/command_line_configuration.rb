@@ -72,27 +72,7 @@ module Bane
       def create(starting_port, behaviors, host)
         [].tap do |configurations|
           behaviors.each_with_index do |behavior, index|
-            if behavior == Behaviors::CloseImmediately ||
-               behavior == Behaviors::CloseAfterPause ||
-               behavior == Behaviors::FixedResponse ||
-               behavior == Behaviors::FixedResponseForEachLine ||
-               behavior == Behaviors::NewlineResponse ||
-               behavior == Behaviors::NewlineResponseForEachLine ||
-               behavior == Behaviors::RandomResponse ||
-               behavior == Behaviors::RandomResponseForEachLine ||
-               behavior == Behaviors::SlowResponse ||
-               behavior == Behaviors::SlowResponseForEachLine ||
-               behavior == Behaviors::NeverRespond ||
-               behavior == Behaviors::DelugeResponse ||
-               behavior == Behaviors::DelugeResponseForEachLine ||
-               behavior == Behaviors::HttpRefuseAllCredentials
-
-              
-              configurations << behavior.new(starting_port + index)
-
-            else
-              configurations << BehaviorServer.new(starting_port + index, behavior.new, host)
-            end
+              configurations << behavior.new(starting_port + index, host)
           end
         end
       end
