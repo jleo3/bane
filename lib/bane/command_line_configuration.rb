@@ -84,7 +84,8 @@ module Bane
                behavior == Behaviors::SlowResponseForEachLine ||
                behavior == Behaviors::NeverRespond ||
                behavior == Behaviors::DelugeResponse ||
-               behavior == Behaviors::DelugeResponseForEachLine
+               behavior == Behaviors::DelugeResponseForEachLine ||
+               behavior == Behaviors::HttpRefuseAllCredentials
 
               
               configurations << behavior.new(starting_port + index)

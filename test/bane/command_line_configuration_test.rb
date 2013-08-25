@@ -41,6 +41,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     expect_server_created "NeverRespond", Behaviors::NeverRespond
     expect_server_created "DelugeResponse", Behaviors::DelugeResponse
     expect_server_created "DelugeResponseForEachLine", Behaviors::DelugeResponseForEachLine
+    expect_server_created "HttpRefuseAllCredentials", Behaviors::HttpRefuseAllCredentials
   end
 
   def test_creates_specified_behavior_on_given_port
