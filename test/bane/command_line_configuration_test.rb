@@ -22,26 +22,16 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 =end
 
-  def test_creates_close_immediately_server
-    Behaviors::CloseImmediately.expects(:new).with(3000)
-    CommandLineConfiguration.new().parse([3000, "CloseImmediately"])
+  def expect_server_created(name, server)
+    server.expects(:new).with(3000)
+    CommandLineConfiguration.new().parse([3000, name])
   end
 
-  def test_creates_close_after_pause_server
-    Behaviors::CloseAfterPause.expects(:new).with(3000)
-    CommandLineConfiguration.new.parse([3000, "CloseAfterPause"])
-  end
-
-  def test_creates_fixed_response_server
-    Behaviors::FixedResponse.expects(:new).with(3000)
-
-    CommandLineConfiguration.new.parse([3000, "FixedResponse"])
-  end
-
-  def test_creates_fixed_response_for_each_line_server
-    Behaviors::FixedResponseForEachLine.expects(:new).with(3000)
-
-    CommandLineConfiguration.new.parse([3000, "FixedResponseForEachLine"])
+  def test_creates_servers
+    expect_server_created "CloseImmediately", Behaviors::CloseImmediately
+    expect_server_created "CloseAfterPause", Behaviors::CloseAfterPause
+    expect_server_created "FixedResponse", Behaviors::FixedResponse
+    expect_server_created "FixedResponseForEachLine", Behaviors::FixedResponseForEachLine
   end
 
   def test_creates_specified_behavior_on_given_port
