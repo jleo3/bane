@@ -5,43 +5,47 @@ require 'mocha'
 class BehaviorsTest < Test::Unit::TestCase
 
   include Bane::Behaviors
+  include Bane::Servers
+
+  IRRELEVANT_HOST = "1.1.1.1"
+  IRRELEVANT_PORT = 4001
 
   def setup
     @fake_connection = FakeConnection.new
   end
 
   def test_fixed_response_sends_the_specified_message
-    query_server(FixedResponse.new(:message => "Test Message"))
+    query_server(FixedResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST, :message => "Test Message"))
 
     assert_equal "Test Message", response
   end
 
   def test_newline_response_sends_only_a_newline_character
-    query_server(NewlineResponse.new)
+    query_server(NewlineResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST))
 
     assert_equal "\n", response
   end
 
   def test_deluge_response_sends_one_million_bytes_by_default
-    query_server(DelugeResponse.new)
+    query_server(DelugeResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST))
 
     assert_response_length 1_000_000
   end
 
   def test_deluge_response_accepts_length_parameter
-    query_server(DelugeResponse.new(:length => 1))
+    query_server(DelugeResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST, :length => 1))
 
     assert_response_length 1
   end
 
   def test_close_immediately_sends_no_response
-    query_server(CloseImmediately.new)
+    query_server(CloseImmediately.new(IRRELEVANT_PORT, IRRELEVANT_HOST))
 
     assert_empty_response()
   end
 
   def test_never_respond_never_sends_a_response
-    server = NeverRespond.new
+    server = NeverRespond.new(IRRELEVANT_PORT, IRRELEVANT_HOST)
 
     assert_raise Timeout::Error do
       Timeout::timeout(1) { query_server(server) }
@@ -50,7 +54,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_close_after_pause_sleeps_30_seconds_by_default
-    server = CloseAfterPause.new
+    server = CloseAfterPause.new(IRRELEVANT_PORT, IRRELEVANT_HOST)
     server.expects(:sleep).with(30)
 
     query_server(server)
@@ -58,14 +62,14 @@ class BehaviorsTest < Test::Unit::TestCase
 
 
   def test_close_after_pause_accepts_duration_parameter
-    server = CloseAfterPause.new(:duration => 1)
+    server = CloseAfterPause.new(IRRELEVANT_PORT, IRRELEVANT_HOST, :duration => 1)
     server.expects(:sleep).with(1)
 
     query_server(server)
   end
 
   def test_close_after_pause_sends_nothing
-    server = CloseAfterPause.new
+    server = CloseAfterPause.new(IRRELEVANT_PORT, IRRELEVANT_HOST)
     server.stubs(:sleep)
 
     query_server(server)
@@ -75,7 +79,7 @@ class BehaviorsTest < Test::Unit::TestCase
     message = "Hi!"
     delay = 0.5
 
-    server = SlowResponse.new(:pause_duration => delay, :message => message)
+    server = SlowResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST, :pause_duration => delay, :message => message)
     server.expects(:sleep).with(delay).at_least(message.length)
 
     query_server(server)
@@ -84,7 +88,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_random_response_sends_a_nonempty_response
-    query_server(RandomResponse.new)
+    query_server(RandomResponse.new(IRRELEVANT_PORT, IRRELEVANT_HOST))
 
     assert (!response.empty?), "Should have served a nonempty response"
   end
@@ -92,7 +96,7 @@ class BehaviorsTest < Test::Unit::TestCase
   def test_refuse_all_http_credentials_sends_401_response_code
     @fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 
-    server = HttpRefuseAllCredentials.new
+    server = HttpRefuseAllCredentials.new(IRRELEVANT_HOST, IRRELEVANT_PORT)
     query_server(server)
 
     assert @fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
@@ -100,11 +104,11 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_simple_name_strips_away_the_namespace
-    assert_equal "SlowResponse", Bane::Behaviors::SlowResponse.simple_name
+    assert_equal "SlowResponse", Bane::Servers::SlowResponse.simple_name
   end
 
   def test_for_each_line_reads_a_line_before_responding
-    server = Bane::Behaviors::FixedResponseForEachLine.new({:message => "Dynamic"})
+    server = Bane::Servers::FixedResponseForEachLine.new(IRRELEVANT_HOST, IRRELEVANT_PORT, {:message => "Dynamic"})
 
     @fake_connection.will_send "irrelevant\n"
 
