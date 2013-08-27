@@ -47,13 +47,13 @@ class BehaviorServerTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = BehaviorServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new)
+    server = Servers::CloseImmediately.new(IRRELEVANT_PORT, IRRELEVANT_HOST)
     server.stdlog = logger
     
     yield server
 
     assert_match /CloseImmediately/, logger.string, "Log for #{method} should contain class short name"
-    assert_no_match /Behaviors::CloseImmediately/, logger.string, "Log for #{method} should not contain expanded module name"
+    assert_no_match /Servers::CloseImmediately/, logger.string, "Log for #{method} should not contain expanded module name"
   end
 
 end
