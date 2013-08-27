@@ -1,5 +1,5 @@
 module Bane
-  module  Behaviors
+  module Servers
 
     # Accepts a connection, pauses a fixed duration, then closes the connection.
     #

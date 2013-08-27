@@ -1,5 +1,5 @@
 module Bane
-  module  Behaviors
+  module  Servers
     # Sends a static response.
     #
     # Options:

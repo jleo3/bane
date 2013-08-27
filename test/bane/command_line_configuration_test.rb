@@ -6,62 +6,46 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   IRRELEVANT_BEHAVIOR = "CloseImmediately"
 
-=begin
-  def create_configuration_for(array)
-    CommandLineConfiguration.new().parse(array)
-  end
-
-  def unique_behavior
-    Class.new
-  end
-
-  def expect_server_created_with(arguments)
-    arguments = { :port => anything(), :host => anything() }.merge(arguments)
-    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
-  end
-=end
-
   def expect_server_created(name, server)
     server.expects(:new).with(3000, '127.0.0.1')
     CommandLineConfiguration.new().parse([3000, name])
   end
 
   def test_creates_servers
-    expect_server_created "CloseImmediately", Behaviors::CloseImmediately
-    expect_server_created "CloseAfterPause", Behaviors::CloseAfterPause
-    expect_server_created "FixedResponse", Behaviors::FixedResponse
-    expect_server_created "FixedResponseForEachLine", Behaviors::FixedResponseForEachLine
-    expect_server_created "NewlineResponse", Behaviors::NewlineResponse
-    expect_server_created "NewlineResponseForEachLine", Behaviors::NewlineResponseForEachLine
-    expect_server_created "RandomResponse", Behaviors::RandomResponse
-    expect_server_created "RandomResponseForEachLine", Behaviors::RandomResponseForEachLine
-    expect_server_created "SlowResponse", Behaviors::SlowResponse
-    expect_server_created "SlowResponseForEachLine", Behaviors::SlowResponseForEachLine
-    expect_server_created "NeverRespond", Behaviors::NeverRespond
-    expect_server_created "DelugeResponse", Behaviors::DelugeResponse
-    expect_server_created "DelugeResponseForEachLine", Behaviors::DelugeResponseForEachLine
-    expect_server_created "HttpRefuseAllCredentials", Behaviors::HttpRefuseAllCredentials
+    expect_server_created "CloseImmediately", Servers::CloseImmediately
+    expect_server_created "CloseAfterPause", Servers::CloseAfterPause
+    expect_server_created "FixedResponse", Servers::FixedResponse
+    expect_server_created "FixedResponseForEachLine", Servers::FixedResponseForEachLine
+    expect_server_created "NewlineResponse", Servers::NewlineResponse
+    expect_server_created "NewlineResponseForEachLine", Servers::NewlineResponseForEachLine
+    expect_server_created "RandomResponse", Servers::RandomResponse
+    expect_server_created "RandomResponseForEachLine", Servers::RandomResponseForEachLine
+    expect_server_created "SlowResponse", Servers::SlowResponse
+    expect_server_created "SlowResponseForEachLine", Servers::SlowResponseForEachLine
+    expect_server_created "NeverRespond", Servers::NeverRespond
+    expect_server_created "DelugeResponse", Servers::DelugeResponse
+    expect_server_created "DelugeResponseForEachLine", Servers::DelugeResponseForEachLine
+    expect_server_created "HttpRefuseAllCredentials", Servers::HttpRefuseAllCredentials
   end
 
   def test_creates_specified_behavior_on_given_port
-    expect_server_created_with(:port => 3000, :behavior => Behaviors::CloseImmediately)
+    expect_server_created_with(:port => 3000, :behavior => Servers::CloseImmediately)
 
     create_configuration_for([3000, "CloseImmediately"])
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    expect_server_created_with :port => 4000, :behavior => Behaviors::CloseImmediately
-    expect_server_created_with :port => 4001, :behavior => Behaviors::NeverRespond
+    expect_server_created_with :port => 4000, :behavior => Servers::CloseImmediately
+    expect_server_created_with :port => 4001, :behavior => Servers::NeverRespond
 
-    ServiceRegistry.stubs(:all_servers).returns([Behaviors::CloseImmediately, Behaviors::NeverRespond])
+    ServiceRegistry.stubs(:all_servers).returns([Servers::CloseImmediately, Servers::NeverRespond])
 
     create_configuration_for([4000])
   end
 
   def test_creates_multiple_behaviors_starting_on_given_port
-    expect_server_created_with :port => 3000, :behavior => Behaviors::CloseImmediately
-    expect_server_created_with :port => 3001, :behavior => Behaviors::CloseAfterPause
+    expect_server_created_with :port => 3000, :behavior => Servers::CloseImmediately
+    expect_server_created_with :port => 3001, :behavior => Servers::CloseAfterPause
 
     create_configuration_for([3000, "CloseImmediately", "CloseAfterPause"])
   end

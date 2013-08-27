@@ -1,5 +1,5 @@
 module Bane
-  module  Behaviors
+  module Servers
     # Closes the connection immediately after a connection is made.
     class CloseImmediately < BehaviorServer
       def initialize(port)

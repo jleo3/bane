@@ -1,7 +1,7 @@
 module Bane
-  module Behaviors
+  module Servers
     class FixedResponseForEachLine < FixedResponse
-      include ForEachLine
+      include Behaviors::ForEachLine
     end
 
   end

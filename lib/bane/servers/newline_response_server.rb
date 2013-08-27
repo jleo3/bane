@@ -1,8 +1,8 @@
 module Bane
-  module Behaviors
+  module Servers
 
     # Sends a newline character as the only response 
-    class NewlineResponse < BasicBehavior
+    class NewlineResponse < BehaviorServer
       def serve(io)
         io.write "\n"
       end

@@ -1,7 +1,7 @@
 module Bane
-  module Behaviors
+  module Servers
     class RandomResponseForEachLine < RandomResponse
-      include ForEachLine
+      include Behaviors::ForEachLine
     end
   end
 end

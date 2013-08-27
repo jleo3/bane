@@ -63,8 +63,8 @@ module Bane
     end
 
     def find(behavior)
-      raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior)
-      Behaviors.const_get(behavior)      
+      raise UnknownBehaviorError.new(behavior) unless Servers.const_defined?(behavior)
+      Servers.const_get(behavior)      
     end
 
     class LinearPortConfigurationFactory

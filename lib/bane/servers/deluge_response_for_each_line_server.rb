@@ -1,8 +1,8 @@
 module Bane
-  module Behaviors
+  module Servers
 
     class DelugeResponseForEachLine < DelugeResponse
-      include ForEachLine
+      include Behaviors::ForEachLine
     end
   end
 end

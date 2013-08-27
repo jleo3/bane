@@ -1,10 +1,10 @@
 module Bane
-  module Behaviors
+  module Servers
     # Sends an HTTP 401 response (Unauthorized) for every request.  This
     # attempts to mimic an HTTP server by reading a line (the request)
     # and then sending the response.  This behavior responds to all
     # incoming request URLs on the running port. 
-    class HttpRefuseAllCredentials < BasicBehavior
+    class HttpRefuseAllCredentials < BehaviorServer
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
 <html>
