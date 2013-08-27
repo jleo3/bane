@@ -29,14 +29,14 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_specified_behavior_on_given_port
-    expect_server_created_with(:port => 3000, :behavior => Servers::CloseImmediately)
+    expect_server_created_with({ :port => 3000 }, Servers::CloseImmediately)
 
     create_configuration_for([3000, "CloseImmediately"])
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    expect_server_created_with :port => 4000, :behavior => Servers::CloseImmediately
-    expect_server_created_with :port => 4001, :behavior => Servers::NeverRespond
+    expect_server_created_with({ :port => 4000 }, Servers::CloseImmediately)
+    expect_server_created_with({ :port => 4001 }, Servers::NeverRespond)
 
     ServiceRegistry.stubs(:all_servers).returns([Servers::CloseImmediately, Servers::NeverRespond])
 
@@ -44,8 +44,8 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_multiple_behaviors_starting_on_given_port
-    expect_server_created_with :port => 3000, :behavior => Servers::CloseImmediately
-    expect_server_created_with :port => 3001, :behavior => Servers::CloseAfterPause
+    expect_server_created_with({ :port => 3000 }, Servers::CloseImmediately)
+    expect_server_created_with({ :port => 3001 }, Servers::CloseAfterPause)
 
     create_configuration_for([3000, "CloseImmediately", "CloseAfterPause"])
   end
@@ -105,10 +105,9 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     Class.new
   end
 
-  def expect_server_created_with(arguments)
+  def expect_server_created_with(arguments, server)
     arguments = { :port => anything(), :host => anything() }.merge(arguments)
-    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
+    server.expects(:new).with(arguments[:port], arguments[:host])
   end
 
   def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
@@ -117,6 +116,4 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     rescue ConfigurationError => ce
       assert_match(message_matcher, ce.message, assertion_failure_message)
   end
-
-
 end
