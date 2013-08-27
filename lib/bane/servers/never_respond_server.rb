@@ -5,6 +5,10 @@ module Bane
     class NeverRespond < BehaviorServer
       include Behaviors::BasicBehavior
 
+      def initialize(port, host)
+        super(port, self, host)
+      end
+
       def serve(io)
         loop { sleep 1 }
       end

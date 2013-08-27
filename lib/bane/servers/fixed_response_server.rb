@@ -7,7 +7,8 @@ module Bane
     class FixedResponse < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(options = {})
+      def initialize(port, host, options = {})
+        super(port, self, host)
         @options = {:message => "Hello, world!"}.merge(options)
       end
 

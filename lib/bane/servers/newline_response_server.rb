@@ -5,6 +5,10 @@ module Bane
     class NewlineResponse < BehaviorServer
       include Behaviors::BasicBehavior
 
+      def initialize(port, host)
+        super(port, self, host)
+      end
+
       def serve(io)
         io.write "\n"
       end

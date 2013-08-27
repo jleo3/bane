@@ -7,7 +7,8 @@ module Bane
     class DelugeResponse < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(options = {})
+      def initialize(port, host, options = {})
+        super(port, self, host)
         @options = {:length => 1_000_000}.merge(options)
       end
 

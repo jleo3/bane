@@ -4,6 +4,10 @@ module Bane
     class RandomResponse < BehaviorServer
       include Behaviors::BasicBehavior
 
+      def initialize(port, host)
+        super(port, self, host)
+      end
+
       def serve(io)
         io.write random_string
       end

@@ -9,7 +9,8 @@ module Bane
     class SlowResponse < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(options = {})
+      def initialize(port, host, options = {})
+        super(port, self, host)
         @options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
       end
 

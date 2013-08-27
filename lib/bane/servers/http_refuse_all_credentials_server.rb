@@ -7,6 +7,10 @@ module Bane
     class HttpRefuseAllCredentials < BehaviorServer
       include Behaviors::BasicBehavior
 
+      def initialize(port, host)
+        super(port, self, host)
+      end
+
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
 <html>
