@@ -4,7 +4,8 @@ module Bane
     class CloseImmediately < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(port)
+      def initialize(port, host)
+        super(port, self, host)
       end
 
       def serve(io)
