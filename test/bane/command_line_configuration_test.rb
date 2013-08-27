@@ -51,7 +51,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
+    expect_server_created_with({}, BehaviorServer::DEFAULT_HOST)
 
     create_configuration_for(["-l", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end

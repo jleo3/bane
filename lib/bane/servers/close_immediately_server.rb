@@ -10,14 +10,6 @@ module Bane
       def serve(io)
         # do nothing
       end
-
-      def self.inherited(clazz)
-        ServiceRegistry.register(clazz)
-      end
-
-      def self.simple_name
-        self.name.split("::").last
-      end
     end
   end
 end
