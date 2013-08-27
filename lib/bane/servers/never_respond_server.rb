@@ -5,7 +5,7 @@ module Bane
     class NeverRespond < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(port, host)
+      def initialize(port, host = BehaviorServer::DEFAULT_HOST)
         super(port, self, host)
       end
 

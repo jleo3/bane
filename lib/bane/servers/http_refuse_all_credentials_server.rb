@@ -7,7 +7,7 @@ module Bane
     class HttpRefuseAllCredentials < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(port, host)
+      def initialize(port, host = BehaviorServer::DEFAULT_HOST)
         super(port, self, host)
       end
 

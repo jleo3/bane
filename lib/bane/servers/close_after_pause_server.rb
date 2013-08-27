@@ -7,7 +7,7 @@ module Bane
     class CloseAfterPause < BehaviorServer
       include Behaviors::BasicBehavior
 
-      def initialize(port, host, options = {})
+      def initialize(port, host = BehaviorServer::DEFAULT_HOST, options = {})
         super(port, self, host)
         @options = {:duration => 30}.merge(options)
       end

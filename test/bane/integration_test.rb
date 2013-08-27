@@ -7,7 +7,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   TEST_PORT = 4000
 
   def test_uses_specified_port_and_server
-    run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
+    run_server_with(TEST_PORT, Bane::Servers::FixedResponse) do
       connect_to TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
       end
@@ -15,7 +15,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   end
 
   def test_serves_http_requests
-    run_server_with(TEST_PORT, Bane::Behaviors::HttpRefuseAllCredentials) do
+    run_server_with(TEST_PORT, Bane::Servers::HttpRefuseAllCredentials) do
       begin
         open("http://localhost:#{TEST_PORT}/some/url").read
         flunk "Should have refused access"
@@ -35,9 +35,9 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   private
 
-  def run_server_with(port, behavior, &block)
-    behavior = Bane::BehaviorServer.new(port, behavior.new)
-    launcher = Bane::Launcher.new([behavior], quiet_logger)
+  def run_server_with(port, server, &block)
+    server = server.new(port)
+    launcher = Bane::Launcher.new([server], quiet_logger)
     launch_and_stop_safely(launcher, &block)
   end
 
