@@ -5,6 +5,8 @@ module Bane
     # and then sending the response.  This behavior responds to all
     # incoming request URLs on the running port. 
     class HttpRefuseAllCredentials < BehaviorServer
+      include Behaviors::BasicBehavior
+
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
 <html>

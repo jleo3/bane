@@ -1,11 +1,12 @@
 module Bane
   module Servers
-
     # Accepts a connection, pauses a fixed duration, then closes the connection.
     #
     # Options:
     #   - duration: The number of seconds to wait before disconnect.  Default: 30
     class CloseAfterPause < BehaviorServer
+      include Behaviors::BasicBehavior
+
       def initialize(options = {})
         @options = {:duration => 30}.merge(options)
       end

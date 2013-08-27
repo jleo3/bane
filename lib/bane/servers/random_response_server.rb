@@ -2,6 +2,8 @@ module Bane
   module Servers
     # Sends a random response.
     class RandomResponse < BehaviorServer
+      include Behaviors::BasicBehavior
+
       def serve(io)
         io.write random_string
       end

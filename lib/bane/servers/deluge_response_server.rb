@@ -5,9 +5,12 @@ module Bane
     # Options
     #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
     class DelugeResponse < BehaviorServer
+      include Behaviors::BasicBehavior
+
       def initialize(options = {})
         @options = {:length => 1_000_000}.merge(options)
       end
+
       def serve(io)
         length = @options[:length]
 

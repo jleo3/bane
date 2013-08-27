@@ -7,6 +7,8 @@ module Bane
     #  - message: The response to send. Default: "Hello, world!"
     #  - pause_duration: The number of seconds to pause between each character. Default: 10 seconds
     class SlowResponse < BehaviorServer
+      include Behaviors::BasicBehavior
+
       def initialize(options = {})
         @options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
       end

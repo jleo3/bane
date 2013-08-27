@@ -18,6 +18,10 @@ module Bane
     def to_s
       "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}>"
     end
+
+    def self.simple_name
+      self.name.split("::").last
+    end
     
     protected
 
